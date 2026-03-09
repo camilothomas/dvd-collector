@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DVD Collection</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header>
+    <h1>DVD COLLECTION</h1>
+  </header>
+
+  <main>
+    <section class="publisher-section">
+      <div class="section-header">
+        <h2>CRITERION COLLECTION</h2>
+        <button class="add-btn" data-publisher="criterion">+ ADD</button>
+      </div>
+      <ul class="title-list" id="criterion-list"></ul>
+    </section>
+
+    <section class="publisher-section">
+      <div class="section-header">
+        <h2>ARROW VIDEO</h2>
+        <button class="add-btn" data-publisher="arrow">+ ADD</button>
+      </div>
+      <ul class="title-list" id="arrow-list"></ul>
+    </section>
+
+    <section class="publisher-section">
+      <div class="section-header">
+        <h2>OTHER</h2>
+        <button class="add-btn" data-publisher="other">+ ADD</button>
+      </div>
+      <ul class="title-list" id="other-list"></ul>
+    </section>
+  </main>
+
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal">
+      <button class="modal-close" id="modal-close">&#x2715;</button>
+      <div id="modal-content"></div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

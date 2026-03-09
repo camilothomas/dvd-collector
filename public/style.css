@@ -1,0 +1,382 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg: #0c0c0c;
+  --surface: #141414;
+  --surface-hover: #1b1b1b;
+  --border: #252525;
+  --text: #d8d8d8;
+  --text-muted: #555;
+  --accent: #c9a84c;
+  --watched: #5adf7a;
+  --has-notes: #7fb3f5;
+  --danger: #e05555;
+  --font: 'Helvetica Neue', Arial, sans-serif;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  min-height: 100vh;
+}
+
+/* ── Header ── */
+
+header {
+  padding: 2.5rem 2rem 1.75rem;
+  border-bottom: 1px solid var(--border);
+}
+
+header h1 {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.45em;
+  color: var(--accent);
+}
+
+/* ── Three-column layout ── */
+
+main {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  min-height: calc(100vh - 72px);
+}
+
+.publisher-section {
+  padding: 1.75rem 1.5rem;
+  border-right: 1px solid var(--border);
+}
+
+.publisher-section:last-child {
+  border-right: none;
+}
+
+/* ── Section header ── */
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.section-header h2 {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.35em;
+  color: var(--text-muted);
+}
+
+.add-btn {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  padding: 0.28rem 0.55rem;
+  cursor: pointer;
+  font-family: var(--font);
+  font-weight: 600;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.add-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* ── Title list ── */
+
+.title-list {
+  list-style: none;
+}
+
+.title-item {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.5rem 0.35rem;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: background 0.1s;
+  user-select: none;
+}
+
+.title-item:hover {
+  background: var(--surface-hover);
+}
+
+.watched-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: #222;
+  border: 1px solid #333;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.watched-dot.watched {
+  background: var(--watched);
+  border-color: var(--watched);
+}
+
+.title-text {
+  flex: 1;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.3;
+  color: var(--text);
+}
+
+.notes-pip {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: transparent;
+  transition: background 0.2s;
+}
+
+.notes-pip.has-notes {
+  background: var(--has-notes);
+}
+
+/* ── Modal overlay ── */
+
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.82);
+  backdrop-filter: blur(3px);
+  z-index: 100;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-overlay.open {
+  display: flex;
+}
+
+.modal {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  width: 480px;
+  max-width: 92vw;
+  padding: 2.25rem 2rem 2rem;
+  position: relative;
+}
+
+.modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 0.25rem 0.4rem;
+  line-height: 1;
+  transition: color 0.15s;
+}
+
+.modal-close:hover {
+  color: var(--text);
+}
+
+/* ── Modal internals ── */
+
+.modal-publisher-label {
+  font-size: 0.58rem;
+  letter-spacing: 0.35em;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 0.6rem;
+}
+
+.modal-title-display {
+  font-size: 1.25rem;
+  font-weight: 500;
+  line-height: 1.35;
+  margin-bottom: 1.75rem;
+  color: var(--text);
+}
+
+.modal-title-input {
+  width: 100%;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-size: 1.05rem;
+  padding: 0.6rem 0.75rem;
+  font-family: var(--font);
+  outline: none;
+  margin-bottom: 1.75rem;
+  transition: border-color 0.15s;
+}
+
+.modal-title-input:focus {
+  border-color: var(--accent);
+}
+
+.watched-toggle-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  padding: 0.5rem 0.8rem;
+  cursor: pointer;
+  font-family: var(--font);
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  font-weight: 600;
+  margin-bottom: 1.75rem;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.watched-toggle-btn:hover {
+  border-color: var(--watched);
+  color: var(--watched);
+}
+
+.watched-toggle-btn.is-watched {
+  border-color: var(--watched);
+  color: var(--watched);
+}
+
+.toggle-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #333;
+  transition: background 0.2s;
+}
+
+.watched-toggle-btn.is-watched .toggle-dot {
+  background: var(--watched);
+}
+
+.notes-label {
+  font-size: 0.58rem;
+  letter-spacing: 0.3em;
+  font-weight: 700;
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+}
+
+.notes-textarea {
+  width: 100%;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-size: 0.85rem;
+  padding: 0.75rem;
+  font-family: var(--font);
+  resize: vertical;
+  min-height: 130px;
+  outline: none;
+  line-height: 1.6;
+  margin-bottom: 1.75rem;
+  transition: border-color 0.15s;
+}
+
+.notes-textarea:focus {
+  border-color: #383838;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: #0c0c0c;
+  border: none;
+  padding: 0.55rem 1.25rem;
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: var(--font);
+  transition: opacity 0.15s;
+}
+
+.btn-primary:hover {
+  opacity: 0.85;
+}
+
+.btn-ghost {
+  background: none;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  padding: 0.55rem 1.25rem;
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: var(--font);
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.btn-ghost:hover {
+  color: var(--text);
+  border-color: #444;
+}
+
+.btn-danger {
+  background: none;
+  color: #7a3a3a;
+  border: 1px solid #2e1a1a;
+  padding: 0.55rem 1.25rem;
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: var(--font);
+  margin-left: auto;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.btn-danger:hover {
+  color: var(--danger);
+  border-color: var(--danger);
+}
+
+/* ── Legend ── */
+
+.legend {
+  position: fixed;
+  bottom: 1.25rem;
+  right: 1.5rem;
+  display: flex;
+  gap: 1.25rem;
+  opacity: 0.45;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+}
+
+.legend-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
