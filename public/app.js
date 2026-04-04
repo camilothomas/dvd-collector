@@ -187,6 +187,17 @@ overlay.addEventListener('click', e => { if (e.target === overlay) closeModal();
 document.getElementById('modal-close').addEventListener('click', closeModal);
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
+// ── Random unwatched picker ───────────────────────────────────────────────────
+
+function pickRandomUnwatched() {
+  const unwatched = titles.filter(t => !t.watched);
+  if (!unwatched.length) return;
+  const pick = unwatched[Math.floor(Math.random() * unwatched.length)];
+  openEditModal(pick.id);
+}
+
+document.getElementById('random-btn').addEventListener('click', pickRandomUnwatched);
+
 // ── Add buttons ──────────────────────────────────────────────────────────────
 
 document.querySelectorAll('.add-btn').forEach(btn => {

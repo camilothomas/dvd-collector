@@ -30,12 +30,33 @@ body {
 header {
   padding: 2.5rem 2rem 1.75rem;
   border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 header h1 {
   font-size: 0.8rem;
   font-weight: 700;
   letter-spacing: 0.45em;
+  color: var(--accent);
+}
+
+.random-btn {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  padding: 0.38rem 0.75rem;
+  cursor: pointer;
+  font-family: var(--font);
+  font-weight: 600;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.random-btn:hover {
+  border-color: var(--accent);
   color: var(--accent);
 }
 
