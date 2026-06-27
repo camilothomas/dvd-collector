@@ -36,6 +36,7 @@ app.post('/api/titles', (req, res) => {
     publisher,
     watched: false,
     notes: '',
+    rating: 0,
     dateAdded: new Date().toISOString().split('T')[0]
   };
   db.titles.push(entry);

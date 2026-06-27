@@ -285,6 +285,36 @@ main {
   background: var(--watched);
 }
 
+.list-stars {
+  font-size: 0.55rem;
+  color: var(--accent);
+  letter-spacing: 0.05em;
+  flex-shrink: 0;
+  opacity: 0.75;
+}
+
+.star-rating {
+  display: flex;
+  gap: 0.25rem;
+  margin-bottom: 1.75rem;
+  cursor: pointer;
+}
+
+.star {
+  font-size: 1.5rem;
+  color: #333;
+  transition: color 0.1s;
+  user-select: none;
+}
+
+.star.filled {
+  color: var(--accent);
+}
+
+.star:hover {
+  color: var(--accent);
+}
+
 .notes-label {
   font-size: 0.58rem;
   letter-spacing: 0.3em;

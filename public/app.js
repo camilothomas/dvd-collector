@@ -71,6 +71,7 @@ function renderList(publisher) {
     li.innerHTML = `
       <span class="watched-dot${t.watched ? ' watched' : ''}"></span>
       <span class="title-text">${esc(t.title)}</span>
+      <span class="list-stars">${t.rating ? '★'.repeat(t.rating) + '☆'.repeat(5 - t.rating) : ''}</span>
       <span class="notes-pip${t.notes ? ' has-notes' : ''}"></span>
     `;
     li.addEventListener('click', () => openEditModal(t.id));
@@ -129,6 +130,7 @@ function openEditModal(id) {
   if (!t) return;
 
   let currentWatched = t.watched;
+  let currentRating = t.rating || 0;
 
   modalContent.innerHTML = `
     <div class="modal-publisher-label">${PUBLISHER_LABELS[t.publisher]}</div>
@@ -137,6 +139,10 @@ function openEditModal(id) {
       <span class="toggle-dot"></span>
       <span id="watched-label">${t.watched ? 'WATCHED' : 'NOT WATCHED'}</span>
     </button>
+    <div class="notes-label">RATING</div>
+    <div class="star-rating" id="star-rating">
+      ${[1,2,3,4,5].map(i => `<span class="star${i <= currentRating ? ' filled' : ''}" data-value="${i}">★</span>`).join('')}
+    </div>
     <div class="notes-label">NOTES</div>
     <textarea
       class="notes-textarea"
@@ -157,9 +163,25 @@ function openEditModal(id) {
     document.getElementById('watched-label').textContent = currentWatched ? 'WATCHED' : 'NOT WATCHED';
   });
 
+  function updateStarDisplay(rating) {
+    document.querySelectorAll('#star-rating .star').forEach((star, i) => {
+      star.classList.toggle('filled', i < rating);
+    });
+  }
+
+  document.querySelectorAll('#star-rating .star').forEach(star => {
+    star.addEventListener('mouseover', () => updateStarDisplay(+star.dataset.value));
+    star.addEventListener('mouseout', () => updateStarDisplay(currentRating));
+    star.addEventListener('click', () => {
+      const val = +star.dataset.value;
+      currentRating = currentRating === val ? 0 : val;
+      updateStarDisplay(currentRating);
+    });
+  });
+
   document.getElementById('modal-save').addEventListener('click', async () => {
     const notes = document.getElementById('notes-input').value;
-    await apiUpdate(activeId, { watched: currentWatched, notes });
+    await apiUpdate(activeId, { watched: currentWatched, notes, rating: currentRating });
     closeModal();
   });
 
